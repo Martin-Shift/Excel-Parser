@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Office.Interop.Excel;
+using System.IO;
 
 namespace Excel_Parser.ViewModels;
 
@@ -29,7 +30,8 @@ public class MainWindowViewModel : NotifyPropertyChangedBase
         {
             if (_Book != null)
             {
-                _Book.SaveAs(saveFile.);
+                var window = new SaveWindow(Data, saveFile.FileName);
+                window.ShowDialog();
                 MessageBox.Show("Saved!", "Save file", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
@@ -40,10 +42,12 @@ public class MainWindowViewModel : NotifyPropertyChangedBase
     });
     public ICommand SaveFile => new RelayCommand(x =>
     {
-        if(_Book != null)
+        if (_Book != null)
         {
-        _Book.Save();
-        MessageBox.Show("Saved!", "Save file", MessageBoxButton.OK, MessageBoxImage.Information);
+            File.Delete(_Book.FilePath);
+            var window = new SaveWindow(Data, _Book.FilePath);
+            window.ShowDialog();
+            MessageBox.Show("Saved!", "Save file", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         else
         {
@@ -58,9 +62,9 @@ public class MainWindowViewModel : NotifyPropertyChangedBase
         if (file.ShowDialog() == true)
         {
             try
-            { 
+            {
                 _Book = WorkBook.Load(file.FileName);
-                WorkSheet sheet = _Book.DefaultWorkSheet;      
+                WorkSheet sheet = _Book.DefaultWorkSheet;
                 Data = sheet.ToDataTable(true);
             }
             catch (Exception ex)
