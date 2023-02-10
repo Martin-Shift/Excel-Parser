@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Excel_Parser" xmlns:viewmodels="clr-namespace:Excel_Parser.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <DockPanel>
+    <TabControl>
+        <TabItem Header="Main Page">
+            <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Open" Command="{Binding Path=OpenFromFile}"></MenuItem>
@@ -30,5 +32,96 @@
             <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding Path=Data.DefaultView}" Grid.RowSpan="4" Grid.ColumnSpan="3"/>
         </Grid>
     </DockPanel>
+        </TabItem>
+        <TabItem Header="Products">
+            <DockPanel>
+                <Menu DockPanel.Dock="Top">
+                    <MenuItem Header ="File">
+                        <MenuItem Header ="Open from File" Command="{Binding Path =OpenFromFile}">
+                        </MenuItem>
+                        <MenuItem Header ="Open from Main Page" Command="{Binding Path =OpenFromExcelProduct}">
+                        </MenuItem>
+                        <Separator></Separator>
+                        <MenuItem Header ="Save As" Command="{Binding Path =SaveProducts}">
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="39*"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="103*"/>
+                        <RowDefinition Height="331*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name ="dataGrid" Grid.Row="0" Grid.RowSpan="2" AutoGenerateColumns="False" ItemsSource="{Binding Path=Products}" SelectedItem="{Binding Path=SelectedProduct}" Grid.ColumnSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Sku" Binding="{Binding Path=Sku}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="StockQuantity" Binding="{Binding Path=StockQuantity}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Reserved" Binding="{Binding Path=Reserved}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ForCeceiving" Binding="{Binding Path=ForCeceiving}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Transfers" Binding="{Binding Path=Transfers}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Order" Binding="{Binding Path=Order}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="FreeStockQuantity" Binding="{Binding Path=FreeStockQuantity}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="0" VerticalAlignment="Center" Grid.RowSpan="2" Grid.Column="2">
+                        <TextBlock>
+                    Edit here:
+                        </TextBlock>
+                        <TextBlock>
+                    
+                        </TextBlock>
+                        <TextBlock>
+                    Sku
+                        </TextBlock>
+                        <TextBox Text="{Binding Path=SelectedProduct.Sku, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBox>
+
+                        <TextBlock>
+                    Stock Quantity
+                        </TextBlock>
+                        <TextBox Text="{Binding Path=SelectedProduct.StockQuantity, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBox>
+
+                        <TextBlock>
+                    Reserved
+                        </TextBlock>
+                        <TextBox Text="{Binding Path=SelectedProduct.Reserved, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBox>
+
+                        <TextBlock>
+                    ForReceiving
+                        </TextBlock>
+                        <TextBox Text="{Binding Path=SelectedProduct.ForReceiving, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBox>
+
+                        <TextBlock>
+                    Transfers
+                        </TextBlock>
+                        <TextBox Text="{Binding Path=SelectedProduct.Transfers, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBox>
+
+                        <TextBlock>
+                    Order
+                        </TextBlock>
+                        <TextBox Text="{Binding Path=SelectedProduct.Order, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBox>
+
+                        <TextBlock>
+                    Free stock quantity
+                        </TextBlock>
+                        <TextBox Text="{Binding Path=SelectedProduct.FreeStockQuantity, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBox>
+
+                    </StackPanel>
+
+                </Grid>
+            </DockPanel>
+        </TabItem>
+    </TabControl>
+    
 
 </Window>

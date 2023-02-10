@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Excel_Parser"
-        mc:Ignorable="d"    ContentRendered="Window_ContentRendered"
+        mc:Ignorable="d"   
+        ContentRendered="Window_ContentRendered"
         Title="SaveWindow" Height="200" Width="400">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
         <Label Content="Saving Document (Mignt take a while)"></Label>
-        <ProgressBar x:Name="SaveBar" Value="0" Minimum="0" IsIndeterminate="True"></ProgressBar>
+        <ProgressBar x:Name="SaveBar" Value="0" Minimum="0"></ProgressBar>
         </StackPanel>
     </Grid>
 </Window>

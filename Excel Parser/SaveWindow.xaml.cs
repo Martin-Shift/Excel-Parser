@@ -31,7 +31,7 @@ namespace Excel_Parser
             InitializeComponent();
             this.Data = Data;
             this.ExcelFilePath = excelFilePath; 
-            SaveBar.Maximum = Data.Columns.Count * Data.Rows.Count + Data.Columns.Count;
+            SaveBar.Maximum = Data.Columns.Count * Data.Rows.Count;
         }
         public DataTable Data { get; set; }
         public string ExcelFilePath { get; set; }
@@ -50,11 +50,13 @@ namespace Excel_Parser
             {
                 workSheet.Cells[1, i + 1] = Data.Columns[i].ColumnName;
             }
-            for (var i = 0; i < Data.Rows.Count; i++)
+            var count = 0;
+            for (var i = 1; i < Data.Rows.Count; i++)
             {
                 for (var j = 0; j < Data.Columns.Count; j++)
                 {
                     workSheet.Cells[i + 2, j + 1] = Data.Rows[i][j];
+                    (sender as BackgroundWorker).ReportProgress(++count);
                 }
             }
             try
@@ -70,13 +72,19 @@ namespace Excel_Parser
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerAsync();
         }
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             Close();
+        }
+        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            SaveBar.Value = e.ProgressPercentage;
         }
     }
 }
